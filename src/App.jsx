@@ -6,14 +6,7 @@ const gameIcons = [
   "🔎",
   "🔥",
   "🐱‍🏍",
-  "✨",
-  "👀",
-  "🎈",
-  "🛒",
-  "🍔",
-  "🍌",
-  "🚽",
-  "🚀",
+ 
 ];
 
 function App() {
@@ -52,12 +45,18 @@ function App() {
 
 
   const gameLogicForFlipped = ()=>{
-     const flippedData = pieces.map(data => data.flipped )
-     console.log(flippedData);
+     const flippedData = pieces.filter((data => data.flipped && !data.solved ))
      if(flippedData.length ===  2){
       setTimeout(() => {
         if(flippedData[0].emoji === flippedData[1].emoji ){
           // success
+          setPieces(pieces.map(data =>{
+            if(data.position === flippedData[0].position  ||
+              data.position === flippedData[1].position ){
+                data.solved = true
+              }
+              return data;
+          }))
         
         }else{
             setPieces( pieces.map(data =>{
@@ -68,15 +67,26 @@ function App() {
                 return data
             }) )
         } 
-      }, 800);
+      }, 700);
      }
   }
 
+  const gameFinished = () =>{
+        if(pieces.every(data => data.solved)){
+          alert('Game Finished')
+        }
+    }
+
   useEffect(()=>{
     gameLogicForFlipped()
+
+    if(pieces.length > 0 ){
+      gameFinished()
+    }
+
   },[pieces])
 
-// console.log('pieces',pieces);
+console.log('pieces',pieces);
 
 return (
     <>
@@ -84,7 +94,7 @@ return (
       <div className="container">
         {pieces.map((data, index) => (
           <div
-            className={`flip-card ${data.flipped ? "active" : ""} `}
+            className={`flip-card ${data.flipped || data.solved ? "active" : "" } `}
             key={index}
             onClick={() => handleActive(data)}
           >
