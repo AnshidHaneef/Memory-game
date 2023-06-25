@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import "./App.scss";
+import Confetti from 'react-confetti'
+import { useMemo } from "react";
 
 const gameIcons = [
   "🌍",
   "🔎",
   "🔥",
   "🐱‍🏍",
+  "👀",
+  "🚽",
+  "🚀",
+  "🍔",
+  "💭",
  
 ];
 
@@ -71,19 +78,16 @@ function App() {
      }
   }
 
-  const gameFinished = () =>{
-        if(pieces.every(data => data.solved)){
-          alert('Game Finished')
-        }
+  const isGameFinished = useMemo(() => {
+    if(pieces.length >0 && pieces.every(piece => piece.solved)){
+      return true
     }
+    return false
+  }, [pieces])
 
+  
   useEffect(()=>{
     gameLogicForFlipped()
-
-    if(pieces.length > 0 ){
-      gameFinished()
-    }
-
   },[pieces])
 
 console.log('pieces',pieces);
@@ -105,6 +109,14 @@ return (
           </div>
         ))}
       </div>
+      {isGameFinished  &&(
+        <div className="game-completed">
+          <h1>You Win !!</h1>
+          <Confetti width={window.innerWidth} height={window.innerHeight}/>
+        </div>
+      )
+
+      }
     </>
   );
 }
