@@ -78,12 +78,6 @@ function App() {
      }
   }
 
-  const isGameFinished = useMemo(() => {
-    if(pieces.length >0 && pieces.every(piece => piece.solved)){
-      return true
-    }
-    return false
-  }, [pieces])
 
   
   useEffect(()=>{
@@ -115,7 +109,6 @@ return (
           <Confetti width={window.innerWidth} height={window.innerHeight}/>
         </div>
       )
-
       }
     </>
   );
