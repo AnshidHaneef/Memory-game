@@ -77,8 +77,6 @@ function App() {
       }, 700);
      }
   }
-
-
   
   useEffect(()=>{
     gameLogicForFlipped()
