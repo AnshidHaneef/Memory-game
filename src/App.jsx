@@ -3,7 +3,7 @@ import "./App.scss";
 import Confetti from "react-confetti";
 import { useMemo } from "react";
 
-const gameIcons = ["🌍", "🔎", "🔥", "🐱‍🏍", "👀", "🚽", "🚀", "🍔", "💭"];
+const gameIcons = ["🌍", "🔎", "🔥", "🚀", "🍔", "💭"];
 
 function App() {
   const [pieces, setPieces] = useState([]);
