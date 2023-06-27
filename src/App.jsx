@@ -1,24 +1,19 @@
 import { useEffect, useState } from "react";
 import "./App.scss";
-import Confetti from 'react-confetti'
+import Confetti from "react-confetti";
 import { useMemo } from "react";
 
-const gameIcons = [
-  "🌍",
-  "🔎",
-  "🔥",
-  "🐱‍🏍",
-  "👀",
-  "🚽",
-  "🚀",
-  "🍔",
-  "💭",
- 
-];
+const gameIcons = ["🌍", "🔎", ];
 
 function App() {
-
   const [pieces, setPieces] = useState([]);
+
+  const isGameFinished = useMemo(() => {
+    if(pieces.length < 0 || pieces.every(data => data.solved)){
+        return true
+    }
+  }, [pieces])
+
   const gameLogic = () => {
     const duplicateGameIcons = [...gameIcons, ...gameIcons];
 
@@ -50,47 +45,53 @@ function App() {
     setPieces(newPices);
   }
 
-
-  const gameLogicForFlipped = ()=>{
-     const flippedData = pieces.filter((data => data.flipped && !data.solved ))
-     if(flippedData.length ===  2){
+  const gameLogicForFlipped = () => {
+    const flippedData = pieces.filter((data) => data.flipped && !data.solved);
+    if (flippedData.length === 2) {
       setTimeout(() => {
-        if(flippedData[0].emoji === flippedData[1].emoji ){
+        if (flippedData[0].emoji === flippedData[1].emoji) {
           // success
-          setPieces(pieces.map(data =>{
-            if(data.position === flippedData[0].position  ||
-              data.position === flippedData[1].position ){
-                data.solved = true
+          setPieces(
+            pieces.map((data) => {
+              if (
+                data.position === flippedData[0].position ||
+                data.position === flippedData[1].position
+              ) {
+                data.solved = true;
               }
               return data;
-          }))
-        
-        }else{
-            setPieces( pieces.map(data =>{
-              if(data.position ===  flippedData[0].position||
-                data.position ===  flippedData[1].position){
-                  data.flipped = false
-                }
-                return data
-            }) )
-        } 
+            })
+          );
+        } else {
+          setPieces(
+            pieces.map((data) => {
+              if (
+                data.position === flippedData[0].position ||
+                data.position === flippedData[1].position
+              ) {
+                data.flipped = false;
+              }
+              return data;
+            })
+          );
+        }
       }, 700);
-     }
-  }
-  
-  useEffect(()=>{
-    gameLogicForFlipped()
-  },[pieces])
+    }
+  };
 
-console.log('pieces',pieces);
+  useEffect(() => {
+  gameLogicForFlipped();
+  }, [pieces]);
 
-return (
+  return (
     <>
       <h2> Memory Game Using React </h2>
       <div className="container">
         {pieces.map((data, index) => (
           <div
-            className={`flip-card ${data.flipped || data.solved ? "active" : "" } `}
+            className={`flip-card ${
+              data.flipped || data.solved ? "active" : ""
+            } `}
             key={index}
             onClick={() => handleActive(data)}
           >
@@ -101,13 +102,13 @@ return (
           </div>
         ))}
       </div>
-      {isGameFinished  &&(
-        <div className="game-completed">
-          <h1>You Win !!</h1>
-          <Confetti width={window.innerWidth} height={window.innerHeight}/>
-        </div>
-      )
-      }
+
+     {isGameFinished && (
+      <div className="game-over">
+      <h1> You Win !! </h1>
+      <Confetti width={window.innerWidth} height={window.innerHeight}   />
+    </div>
+     )}
     </>
   );
 }

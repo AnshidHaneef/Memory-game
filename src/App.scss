@@ -1,7 +1,6 @@
 
-
-*{
-  background-color: rgba(32, 29, 29, 0.867);
+body{
+  background-color: #242821;
 }
 
 #root {
@@ -28,6 +27,7 @@
   background-color: transparent;
   width: 100px;
   height: 100px;
+  cursor: pointer;
   perspective: 1000px; 
 
   &-inner {
@@ -58,14 +58,46 @@
   }
 
   &-front {
-    background-color: #595d56;
+    background-color: #4c7d7f;
     color: black;
   }
 
   &-back {
-    background-color: rgb(2, 12, 22);
+    background-color: rgb(68, 75, 82);
     color: white;
     transform: rotateY(180deg);
   }
 }
+}
+
+
+
+.game-over {
+  background-color: rgba(0, 0, 0, 0.752);
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+
+  h1 {
+    font-size: 48px;
+    color: #fff;
+    transform: translateY(-50%);
+    opacity: 0;
+    animation-name: fade-in;
+    animation-duration: 1s;
+    animation-delay: 0.5s;
+    animation-fill-mode: forwards;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(-50%);
+    }
+    100% {
+      opacity: 2;
+      transform: translateY(0);
+    }
+  }
 }
